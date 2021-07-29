@@ -1,4 +1,3 @@
-
 //	Classic Perlin 3D Noise 
 //	by Stefan Gustavson
 //
@@ -75,29 +74,20 @@ float cnoise(vec3 P){
 }
 
 uniform float time;
-uniform vec2 hover;
-uniform float hoverState;
 varying float vNoise;
 varying vec2 vUv;
 
-
-void main() {
+void main(){
     vec3 newposition = position;
     float PI = 3.1415925;
+    // newposition.z += 0.1*sin((newposition.x + 0.25 + time/10.)*2.*PI);
+    // float dist = distance(position, vec2(0.5));
+    float noise = cnoise(3.*vec3(position.x, position.y, position.z + time/30.));
+    // newposition.z += 0.05*sin(dist*40. + time); 
 
-    float noise = cnoise(3.*vec3(position.x,position.y,position.z + time/30.));
-    // newposition.z += 0.1*sin( (newposition.x  + 0.25 + time/10.)*2.*PI);
-    
-    float dist = distance(uv,hover);
-
-    newposition.z += hoverState*10.*sin(dist*10. + time);
-
-    // newposition.z += 0.05*sin(dist*40. );
-
-    // newposition += 0.1*normal*noise;
-
-    vNoise = hoverState*sin(dist*10. - time);
+    newposition += 0.1*normal*noise;
+  
+    vNoise = noise;
     vUv = uv;
-
-    gl_Position = projectionMatrix * modelViewMatrix * vec4( newposition, 1.0 );
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(newposition, 1.0);
 }
