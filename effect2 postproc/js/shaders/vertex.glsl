@@ -85,7 +85,7 @@ void main(){
     float noise = cnoise(3.*vec3(position.x, position.y, position.z + time/30.));
     // newposition.z += 0.05*sin(dist*40. + time); 
 
-    newposition += 0.1*normal*noise;
+    // newposition += 0.1*normal*noise;
   
     vNoise = noise;
     vUv = uv;
